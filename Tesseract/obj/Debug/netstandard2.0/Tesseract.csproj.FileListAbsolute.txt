@@ -1,0 +1,26 @@
+C:\Users\Gabi\Desktop\tesseract-feature-321-Tesseract-4\src\Tesseract\bin\Debug\netstandard2.0\x64\liblept1760.dll
+C:\Users\Gabi\Desktop\tesseract-feature-321-Tesseract-4\src\Tesseract\bin\Debug\netstandard2.0\x64\libtesseract400.dll
+C:\Users\Gabi\Desktop\tesseract-feature-321-Tesseract-4\src\Tesseract\bin\Debug\netstandard2.0\x86\liblept1760.dll
+C:\Users\Gabi\Desktop\tesseract-feature-321-Tesseract-4\src\Tesseract\bin\Debug\netstandard2.0\x86\libtesseract400.dll
+C:\Users\Gabi\Desktop\tesseract-feature-321-Tesseract-4\src\Tesseract\bin\Debug\netstandard2.0\Tesseract.deps.json
+C:\Users\Gabi\Desktop\tesseract-feature-321-Tesseract-4\src\Tesseract\bin\Debug\netstandard2.0\Tesseract.dll
+C:\Users\Gabi\Desktop\tesseract-feature-321-Tesseract-4\src\Tesseract\bin\Debug\netstandard2.0\Tesseract.pdb
+C:\Users\Gabi\Desktop\tesseract-feature-321-Tesseract-4\src\Tesseract\obj\Debug\netstandard2.0\Tesseract.csprojAssemblyReference.cache
+C:\Users\Gabi\Desktop\tesseract-feature-321-Tesseract-4\src\Tesseract\obj\Debug\netstandard2.0\Tesseract.csproj.CoreCompileInputs.cache
+C:\Users\Gabi\Desktop\tesseract-feature-321-Tesseract-4\src\Tesseract\obj\Debug\netstandard2.0\Tesseract.AssemblyInfoInputs.cache
+C:\Users\Gabi\Desktop\tesseract-feature-321-Tesseract-4\src\Tesseract\obj\Debug\netstandard2.0\Tesseract.AssemblyInfo.cs
+C:\Users\Gabi\Desktop\tesseract-feature-321-Tesseract-4\src\Tesseract\obj\Debug\netstandard2.0\Tesseract.dll
+C:\Users\Gabi\Desktop\tesseract-feature-321-Tesseract-4\src\Tesseract\obj\Debug\netstandard2.0\Tesseract.pdb
+D:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\bin\Debug\netstandard2.0\x64\liblept1760.dll
+D:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\bin\Debug\netstandard2.0\x64\libtesseract400.dll
+D:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\bin\Debug\netstandard2.0\x86\liblept1760.dll
+D:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\bin\Debug\netstandard2.0\x86\libtesseract400.dll
+D:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\bin\Debug\netstandard2.0\Tesseract.deps.json
+D:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\bin\Debug\netstandard2.0\Tesseract.dll
+D:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\bin\Debug\netstandard2.0\Tesseract.pdb
+D:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\obj\Debug\netstandard2.0\Tesseract.csproj.CoreCompileInputs.cache
+D:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\obj\Debug\netstandard2.0\Tesseract.AssemblyInfoInputs.cache
+D:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\obj\Debug\netstandard2.0\Tesseract.AssemblyInfo.cs
+D:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\obj\Debug\netstandard2.0\Tesseract.dll
+D:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\obj\Debug\netstandard2.0\Tesseract.pdb
+D:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\obj\Debug\netstandard2.0\Tesseract.csprojAssemblyReference.cache

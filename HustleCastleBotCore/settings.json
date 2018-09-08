@@ -1,0 +1,11 @@
+{
+  //User variables
+  "PortalLevel": "57",
+  "MaxRetryPortal": "5",
+  "BuyFoodInMarket": "0",
+  "MaxDarkSouls": "150000",
+
+  //Global Variables
+  "char_whitelist_battle_power": "0123456789",
+  "char_whitelist_portal": "Nivel0123456789"
+}

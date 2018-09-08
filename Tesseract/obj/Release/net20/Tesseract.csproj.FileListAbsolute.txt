@@ -1,0 +1,12 @@
+d:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\bin\Release\net20\x64\liblept1760.dll
+d:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\bin\Release\net20\x64\libtesseract400.dll
+d:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\bin\Release\net20\x86\liblept1760.dll
+d:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\bin\Release\net20\x86\libtesseract400.dll
+d:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\bin\Release\net20\Tesseract.dll
+d:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\bin\Release\net20\Tesseract.pdb
+d:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\obj\Release\net20\Tesseract.csprojAssemblyReference.cache
+d:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\obj\Release\net20\Tesseract.csproj.CoreCompileInputs.cache
+d:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\obj\Release\net20\Tesseract.AssemblyInfoInputs.cache
+d:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\obj\Release\net20\Tesseract.AssemblyInfo.cs
+d:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\obj\Release\net20\Tesseract.dll
+d:\Documentos\Visual Studio 2017\Projects\HustleCastleBotCore\Tesseract\obj\Release\net20\Tesseract.pdb
