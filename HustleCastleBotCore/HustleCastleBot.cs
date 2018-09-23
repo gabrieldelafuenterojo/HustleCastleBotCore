@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Threading;
 
 namespace HustleCastleBotCore
 {
@@ -25,14 +27,60 @@ namespace HustleCastleBotCore
             {
                 Portal();
             }
+
+            if (mode == BotMode.Dust)
+            {
+                Dust();
+            }
+
+            if (mode == BotMode.Debug)
+            {
+                Debug();
+            }
+        }
+
+        public void Debug()
+        {
+            ocr.GetDustPlayersPower();
+            //navigation.PositionBattleFinished(null, Places.AppleMarket);
+        }
+
+        public void Dust()
+        {
+            navigation.StartBot();
+
+            while (true)
+            {
+                try
+                {
+                    navigation.StartDust();
+
+                    if (navigation.ActualLocation == Places.DustMap)
+                    {
+                        for (int i = ocr.GetDustStep(); i <= 5; i++)
+                        {
+                            BattleAlgorithm battleAlgorithm = new BattleAlgorithm();
+                            battleAlgorithm.Run(i);
+
+                            if (i != 5)
+                                navigation.WaitForNextDustStep(i);
+                            else
+                                navigation.EndDust();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    writer.WriteError($"{ex.Message}");
+                    navigation.StartBot();
+                }
+            }
         }
 
         public void Portal()
         {
 
-            adb.EndGame();
-            adb.StartGame();
-            navigation.WaitForLocation(Places.Castle);
+            navigation.StartBot();
             var limitReached = 0;
 
             while (true)
@@ -68,8 +116,8 @@ namespace HustleCastleBotCore
                             if (navigation.GoBattle(Places.BattlePopUp))
                             {
                                 navigation.DoubleSpeed();
-                                navigation.WaitForLocation(Places.PortalBattleFinish);
-                                navigation.GoPortal(Places.PortalBattleFinish);
+                                navigation.WaitForLocation(Places.BattleFinish);
+                                navigation.GoPortal(Places.BattleFinish);
                             }
                             else
                             {

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Threading;
 
 namespace HustleCastleBotCore
@@ -7,10 +9,14 @@ namespace HustleCastleBotCore
     public class Navigation : UtilsAdb
     {
         WriteHelper WriteHelper;
+        UtilsAdb adb;
+        UtilsOcr ocr;
 
         public Navigation()
         {
             WriteHelper = new WriteHelper();
+            adb = new UtilsAdb();
+            ocr = new UtilsOcr();
         }
 
         #region WaitAndLocation
@@ -26,8 +32,12 @@ namespace HustleCastleBotCore
             int tryCount = 50;
             if (location == Places.Battle)
                 tryCount = 1000;
-            if (location == Places.PortalBattleFinish)
+            if (location == Places.BattleFinish)
                 tryCount = 5000;
+            if (location == Places.DustMap)
+                tryCount = 15000;
+            if (location == Places.DustFinished)
+                tryCount = 600000;
 
             ConsoleSpiner spin = new ConsoleSpiner();
             WriteHelper.Write($"Esperando por la localización: {location} ");
@@ -103,6 +113,58 @@ namespace HustleCastleBotCore
             spin.FinishTurn();
         }
 
+        /// <summary>
+        /// Inicia el bot
+        /// </summary>
+        public void StartBot()
+        {
+            adb.EndGame();
+            adb.StartGame();
+            WaitForLocation(Places.Castle);
+        }
+
+        /// <summary>
+        /// Inicia una batalla en la arena
+        /// </summary>
+        public void StartDust()
+        {
+            WaitForCastle();
+            GoBattleMap(Places.Castle);
+            WaitForLocation(Places.BattleMap);
+            TapInGoDust();
+            WaitForLocation(Places.Dust);
+            if (ActualLocation == Places.Dust)
+            {
+                TapInStartDust();
+                WaitForLocation(Places.DustBattlePopUp);
+                TapInStartDustBattlePopUp();
+            }
+            WaitForLocation(Places.DustMap);
+        }
+
+        public void WaitForNextDustStep(int i)
+        {
+            WriteHelper.WriteWarning($"Esperando a la etapa {i + 1}...");
+            while (ocr.GetDustStep() == i)
+            {
+                Thread.Sleep(6000);
+            }
+        }
+
+        /// <summary>
+        /// Termina una batalla en la arena
+        /// </summary>
+        public void EndDust()
+        {
+            WaitForLocation(Places.DustFinished);
+            Thread.Sleep(1000);
+            TapInEndDust();
+            Thread.Sleep(5000);
+        }
+
+        /// <summary>
+        /// Muestra el poder de los jugadores
+        /// </summary>
         public void ShowPlayersPower()
         {
             if (ActualLocation == Places.BattlePopUp)
@@ -117,6 +179,10 @@ namespace HustleCastleBotCore
             }
         }
 
+        /// <summary>
+        /// Muestra las almas oscuras actuales
+        /// </summary>
+        /// <returns></returns>
         public int ShowActualDarkSouls()
         {
             if (ActualLocation == Places.Portal)
@@ -173,7 +239,7 @@ namespace HustleCastleBotCore
 
                 if (IsInPortalBattleFinish(image))
                 {
-                    return Places.PortalBattleFinish;
+                    return Places.BattleFinish;
                 }
 
                 if (IsInApplePopUp(image))
@@ -196,10 +262,31 @@ namespace HustleCastleBotCore
                     return Places.SpellPopUp;
                 }
 
+                if (IsInDust(image))
+                {
+                    return Places.Dust;
+                }
+
+                if (IsInDustMap(image))
+                {
+                    if (IsInDustFinished(image))
+                        return Places.DustFinished;
+
+                    return Places.DustMap;
+                }
+
+                if (IsInDustBattlePopUp(image))
+                {
+                    return Places.DustBattlePopUp;
+                }
+
                 return Places.Unknown;
             }
         }
 
+        /// <summary>
+        /// Obtiene la localización del x2
+        /// </summary>
         public Places x2Location
         {
             get
@@ -219,6 +306,9 @@ namespace HustleCastleBotCore
             }
         }
 
+        /// <summary>
+        /// Comprueba si hay un error
+        /// </summary>
         public void CheckForError()
         {
             WriteHelper Writer = new WriteHelper();
@@ -271,7 +361,7 @@ namespace HustleCastleBotCore
         /// <returns></returns>
         public bool IsInBattleMap(Image image)
         {
-            if (AreColorsSimilar(GetPixelColor(image, 315, 490), Color.FromArgb(227, 193, 125)))
+            if (AreColorsSimilar(GetPixelColor(image, 340, 401), Color.FromArgb(232, 207, 76)))
                 if (AreColorsSimilar(GetPixelColor(image, 69, 497), Color.FromArgb(239, 36, 32)))
                     return true;
 
@@ -344,6 +434,15 @@ namespace HustleCastleBotCore
         /// <param name="image"></param>
         /// <returns></returns>
         public bool IsInPortalBattleFinish(Image image)
+        {
+            if (AreColorsSimilar(GetPixelColor(image, 366, 554), Color.FromArgb(113, 219, 24)))
+                if (AreColorsSimilar(GetPixelColor(image, 432, 542), Color.FromArgb(113, 219, 24)))
+                    return true;
+
+            return false;
+        }
+
+        public bool IsInDustBattleFinish(Image image)
         {
             if (AreColorsSimilar(GetPixelColor(image, 366, 554), Color.FromArgb(113, 219, 24)))
                 if (AreColorsSimilar(GetPixelColor(image, 432, 542), Color.FromArgb(113, 219, 24)))
@@ -445,9 +544,166 @@ namespace HustleCastleBotCore
             return false;
         }
 
+        /// <summary>
+        /// Obtiene si está en la pantalla principal de arena
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public bool IsInDust(Image image)
+        {
+            if (AreColorsSimilar(GetPixelColor(image, 309, 444), Color.FromArgb(156, 241, 70)))
+                if (AreColorsSimilar(GetPixelColor(image, 698, 177), Color.FromArgb(207, 110, 81)))
+                    return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Obtiene si hay una arena en curso
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public bool IsInDustMap(Image image)
+        {
+            if (AreColorsSimilar(GetPixelColor(image, 160, 565), Color.FromArgb(76, 68, 59)))
+                if (AreColorsSimilar(GetPixelColor(image, 600, 565), Color.FromArgb(76, 68, 59)))
+                    return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Obtiene si hay abierta una ventana de pelea en la arena
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public bool IsInDustBattlePopUp(Image image)
+        {
+            if (AreColorsSimilar(GetPixelColor(image, 690, 185), Color.FromArgb(81, 17, 10)))
+                if (AreColorsSimilar(GetPixelColor(image, 690, 450), Color.FromArgb(76, 17, 9)))
+                    return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Obtiene si ha terminado la arena
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public bool IsInDustFinished(Image image)
+        {
+            if (AreColorsSimilar(GetPixelColor(image, 686, 84), Color.FromArgb(243, 171, 8)))
+                return true;
+
+            return false;
+        }
+
         #endregion
 
+        /// <summary>
+        /// Obtiene la etapa actual de la arena
+        /// </summary>
+        /// <returns></returns>
+        public Places GetDustPosition()
+        {
+            Image image = ScreenCapture();
+            Places place = new Places();
+            Position position = new Position();
+
+            for (int i = 1; i <= 10; i++)
+            {
+                place = Enum.Parse<Places>($"DustPosition{i}");
+                if (position.GetPositionState(image, place) == PositionState.MyPosition)
+                {
+                    return place;
+                }
+            }
+
+            return Places.Unknown;
+        }
+
+        /// <summary>
+        /// Muestra en que etapa de la arena se está entrando
+        /// </summary>
+        /// <param name="i"></param>
+        public void ShowDustIncomingStep(int i)
+        {
+            WriteHelper.WriteWarning($"Entrando en etapa {i} de 5.");
+        }
+
+        /// <summary>
+        /// Obtiene el estado de todos los participantes de la arena
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<Places, PositionState> GetDustPositionStates(Image image)
+        {
+            Places place = new Places();
+            Position position = new Position();
+
+            Dictionary<Places, PositionState> Dictionary = new Dictionary<Places, PositionState>();
+
+            for (int i = 1; i <= 10; i++)
+            {
+                place = Enum.Parse<Places>($"DustPosition{i}");
+                Dictionary.Add(place, position.GetPositionState(image, place));
+            }
+
+            return Dictionary;
+        }
+
+        /// <summary>
+        /// Obtiene si ya se ha efectuado la pelea en la arena
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="place"></param>
+        /// <returns></returns>
+        public bool IsPositionBattleFinished(Image image, Places place)
+        {
+            UtilsOcr ocr = new UtilsOcr();
+            Navigation nav = new Navigation();
+            DustPosition position = new DustPosition(place);
+
+            var matriz = new Rectangle(position.x, position.y, position.xRange, position.yRange);
+
+            image = ocr.CropImage(image, matriz);
+
+            for (int x = 0; x < position.xRange; x++)
+            {
+                for (int y = 0; y < position.yRange; y++)
+                {
+                    if (AreColorsSimilar(GetPixelColor(image, x, y), Color.FromArgb(113, 215, 48)))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+            
+        }
+
+        /// <summary>
+        /// Obtiene mi posición en la arena
+        /// </summary>
+        /// <param name="dic"></param>
+        /// <returns></returns>
+        public Places GetMyDustPositionStates(Dictionary<Places, PositionState> dic)
+        {
+            return dic.FirstOrDefault(_g => _g.Value == PositionState.MyPosition).Key;
+        }
+
         #region GoToPlace
+
+        /// <summary>
+        /// Hace tap en una posición de la arena
+        /// </summary>
+        /// <param name="place"></param>
+        public void TapDustPosition(Places place)
+        {
+            DustPosition position = new DustPosition(place);
+            TapRange(position.x + 9, position.y + 5, position.xTapRange, position.yTapRange);
+        }
 
         /// <summary>
         /// Se mueve hasta el mapa de batalla desde la ubicación seleccionada
@@ -496,9 +752,9 @@ namespace HustleCastleBotCore
 
             }
 
-            if (from == Places.PortalBattleFinish)
+            if (from == Places.BattleFinish)
             {
-                TapGoPortalBattleFinish();
+                TapFinishBattle();
             }
 
             if (from == Places.Unknown)
@@ -671,11 +927,43 @@ namespace HustleCastleBotCore
         }
 
         /// <summary>
-        /// Hace tap en terminar la pelea para ir al portal
+        /// Hace tap en terminar la pelea
         /// </summary>
-        public void TapGoPortalBattleFinish()
+        public void TapFinishBattle()
         {
             TapRange(360, 545, 85, 30);
+        }
+
+        /// <summary>
+        /// Finaliza la arena dandole a reclamar recompensa
+        /// </summary>
+        public void TapInEndDust()
+        {
+            TapRange(660, 65, 113, 40);
+        }
+
+        /// <summary>
+        /// Pulsa aceptar en el dust battle pop up
+        /// </summary>
+        public void TapInStartDustBattlePopUp()
+        {
+            TapRange(280, 455, 90, 30);
+        }
+
+        /// <summary>
+        /// Hace tap en la arena
+        /// </summary>
+        public void TapInGoDust()
+        {
+            TapRange(310, 415, 90, 80);
+        }
+
+        /// <summary>
+        /// Hace tap en el botón de empezar arena
+        /// </summary>
+        public void TapInStartDust()
+        {
+            TapRange(200, 450, 110, 35);
         }
 
         /// <summary>
@@ -692,6 +980,14 @@ namespace HustleCastleBotCore
         public void TapInGoFight()
         {
             TapRange(525, 445, 110, 30);
+        }
+
+        /// <summary>
+        /// Hace tap en la pelea de las arenas
+        /// </summary>
+        public void TapInGoDustFight()
+        {
+            TapRange(540, 445, 105, 28);
         }
 
         /// <summary>

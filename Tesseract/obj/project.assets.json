@@ -865,11 +865,11 @@
   "project": {
     "version": "4.0.0-beta3",
     "restore": {
-      "projectUniqueName": "D:\\Documentos\\Visual Studio 2017\\Projects\\HustleCastleBotCore\\Tesseract\\Tesseract.csproj",
+      "projectUniqueName": "D:\\Documentos\\Visual Studio 2017\\Projects\\HustleCastleBotCore\\HustleCastleBotCore\\Tesseract\\Tesseract.csproj",
       "projectName": "Tesseract",
-      "projectPath": "D:\\Documentos\\Visual Studio 2017\\Projects\\HustleCastleBotCore\\Tesseract\\Tesseract.csproj",
+      "projectPath": "D:\\Documentos\\Visual Studio 2017\\Projects\\HustleCastleBotCore\\HustleCastleBotCore\\Tesseract\\Tesseract.csproj",
       "packagesPath": "C:\\Users\\Gabi\\.nuget\\packages\\",
-      "outputPath": "D:\\Documentos\\Visual Studio 2017\\Projects\\HustleCastleBotCore\\Tesseract\\obj\\",
+      "outputPath": "D:\\Documentos\\Visual Studio 2017\\Projects\\HustleCastleBotCore\\HustleCastleBotCore\\Tesseract\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "fallbackFolders": [

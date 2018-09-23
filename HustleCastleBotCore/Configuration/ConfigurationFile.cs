@@ -83,5 +83,27 @@ namespace HustleCastleBotCore
         {
             return configuration["char_whitelist_portal"];
         }
+
+        /// <summary>
+        /// Obtiene el modo de uso del bot
+        /// </summary>
+        /// <returns></returns>
+        public int GetBotMode()
+        {
+            int result;
+            int.TryParse((configuration["BotMode"]), out result);
+            return result;
+        }
+
+        /// <summary>
+        /// Diferencia que poder que tiene el enemigo contigo, sobre el cual permitiremos luchar
+        /// </summary>
+        /// <returns></returns>
+        public int GetEnemyMargin()
+        {
+            int result;
+            int.TryParse((configuration["EnemyMargin"]), out result);
+            return result;
+        }
     }
 }

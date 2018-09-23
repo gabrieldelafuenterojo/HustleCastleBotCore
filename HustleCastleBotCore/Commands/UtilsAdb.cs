@@ -29,6 +29,8 @@ namespace HustleCastleBotCore
 
             try
             {
+                //return Image.FromFile(ImagePath);
+
                 Image result = null;
                 byte[] data = Convert.FromBase64String(ReturnExec(@"exec-out ""screencap -p | base64""", Commands.CommandEnum.Adb));
                 using (var stream = new MemoryStream(data, 0, data.Length))

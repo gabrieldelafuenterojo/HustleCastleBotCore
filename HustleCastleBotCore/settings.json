@@ -4,6 +4,8 @@
   "MaxRetryPortal": "5",
   "BuyFoodInMarket": "0",
   "MaxDarkSouls": "150000",
+  "BotMode": "2", // Portal: 1, Dust: 2, Debug: 3
+  "EnemyMargin": "50000",
 
   //Global Variables
   "char_whitelist_battle_power": "0123456789",

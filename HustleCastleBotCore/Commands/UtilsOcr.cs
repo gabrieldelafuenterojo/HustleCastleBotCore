@@ -66,11 +66,13 @@ namespace HustleCastleBotCore
 
         private UtilsAdb UtilsAdb { get; }
         private ConfigurationFile Config { get; }
+        private WriteHelper Writer { get; }
 
         public UtilsOcr()
         {
             UtilsAdb = new UtilsAdb();
             Config = new ConfigurationFile();
+            Writer = new WriteHelper();
         }
 
         #endregion
@@ -189,6 +191,82 @@ namespace HustleCastleBotCore
             int.TryParse(text, out darkSouls);
 
             return darkSouls;
+        }
+
+        #endregion
+
+        #region Dust
+
+        /// <summary>
+        /// Obtiene la etapa midiante ocr
+        /// </summary>
+        /// <returns></returns>
+        public int GetDustStep()
+        {
+            int result = -1;
+
+            while (result == -1)
+            {
+
+                var text = OcrEngineResult(
+                    new Rectangle(510, 22, 92, 23),
+                    new EngineWhiteListConfig
+                    {
+                        Value = Config.GetCharWhitelistPortal()
+                    }
+                );
+
+                try
+                {
+                    int.TryParse(text.Substring(0, 1), out result);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"{ex.Message} : {text}");
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Obtiene el poder de la batalla en la arena
+        /// </summary>
+        /// <returns></returns>
+        public Tuple<int, int> GetDustPlayersPower()
+        {
+            Bitmap ScreenCapture = UtilsAdb.GetBitmapCapture();
+            int myPower = -1;
+            int enemyPower = -1;
+
+            var text = OcrEngineResult(
+                new Rectangle(200, 267, 134, 21),
+                new EngineWhiteListConfig
+                {
+                    Value = Config.GetCharWhitelistBattlePower()
+                },
+                ScreenCapture
+            );
+
+            int.TryParse(text, out myPower);
+
+            text = OcrEngineResult(
+                new Rectangle(440, 267, 134, 21),
+                new EngineWhiteListConfig
+                {
+                    Value = Config.GetCharWhitelistBattlePower()
+                },
+                ScreenCapture
+            );
+
+            int.TryParse(text, out enemyPower);
+
+            string MyPower = myPower.ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("de"));
+            string EnemyPower = enemyPower.ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("de"));
+
+            Writer.WriteWarning($"Mi poder: {MyPower}, poder enemigo: {EnemyPower}");
+
+            return new Tuple<int, int>(myPower, enemyPower);
         }
 
         #endregion

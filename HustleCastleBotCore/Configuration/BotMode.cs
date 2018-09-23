@@ -5,6 +5,8 @@
     /// </summary>
     public enum BotMode
     {
-        Portal
+        Portal = 1,
+        Dust = 2,
+        Debug = 3
     }
 }
